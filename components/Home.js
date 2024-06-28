@@ -10,6 +10,7 @@ function Home() {
   const user = useSelector((state) => state.user.value);
   console.log(user);
   const [text, setText] = useState(""); // Text du tweet
+  const [charCount, setCharCount] = useState(280); // Nbr de caractere texte
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -41,6 +42,7 @@ function Home() {
           })
         );
         setText("");
+        setCharCount(280);
       });
   };
 
@@ -50,23 +52,25 @@ function Home() {
         <div className="logo  " onClick={() => window.location.reload()}>
           <img className=" rounded-full h-12" src="/logo.png"></img>
         </div>
-        <div>
-          <div className="user-info flex justify-start">
-            <img className="rounded-full h-10" src="/user.jpg "></img>
-            <p className="flex flex-col px-2">
-              <span className="font-semibold">{user.firstname} </span>
-              <span className="text-slate-700">@ {user.username}</span>
-            </p>
+        {user.userid && (
+          <div>
+            <div className="user-info flex justify-start">
+              <img className="rounded-full h-10" src="/user.jpg "></img>
+              <p className="flex flex-col px-2">
+                <span className="font-semibold">{user.firstname} </span>
+                <span className="text-slate-700">@ {user.username}</span>
+              </p>
+            </div>
+            <div className="Logout  py-5">
+              <button
+                className="bg-slate-400 rounded-full w-20 h-10 "
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </div>
           </div>
-          <div className="Logout  py-5">
-            <button
-              className="bg-slate-400 rounded-full w-20 h-10 "
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
-          </div>
-        </div>
+        )}
       </div>
       <div className="main-content basis-2/4">
         <div className="Home text-3xl font-bold  text-sky-400/100 py-2">
@@ -74,21 +78,32 @@ function Home() {
         </div>
         <div className="AddTweet grid justify-items-stretch ">
           <div className="py-2 px-10">
-            <input
-              className=" bg-slate-800 w-11/12 h-10 rounded-lg"
-              type="text"
-              placeholder="Whats up ?"
-              onChange={(e) => setText(e.target.value)}
-              value={text}
-            />
+            {user.userid && (
+              <input
+                className=" bg-slate-800 w-11/12 h-10 rounded-lg"
+                type="text"
+                placeholder="Whats up ?"
+                onChange={(e) => {
+                  setText(e.target.value);
+                  setCharCount(280 - e.target.value.length);
+                }}
+                value={text}
+                maxLength={280}
+              />
+            )}
           </div>
           <div className="justify-self-end px-10">
-            <button
-              className="bg-blue-500 shadow-lg shadow-blue-500/50  rounded-full w-32"
-              onClick={() => handleTweet(text)}
-            >
-              Tweet
-            </button>
+            <p className="text-right text-gray-400">
+              {charCount} characters left
+            </p>
+            {user.userid && (
+              <button
+                className="bg-blue-500 shadow-lg shadow-blue-500/50  rounded-full w-32"
+                onClick={() => handleTweet(text)}
+              >
+                Tweet
+              </button>
+            )}
           </div>
         </div>
 

@@ -7,14 +7,15 @@ import { useDispatch } from "react-redux";
 import { login, logout } from "../reducers/user";
 
 function Tweet({ props }) {
+  console.log("this is props tweet", props);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
   const isLikedByUser = props.likedBy.some((like) => like._id === user.userid);
-  console.log(isLikedByUser);
+  //console.log(isLikedByUser);
   const [likeStatus, setLikeStatus] = useState(isLikedByUser);
 
   const [likesCount, setLikesCount] = useState(props.likedBy.length);
-  console.log("user local", user.userid, "likeby liste", props.likedBy);
+  console.log("NOMBRE DE LIKE", props.likedBy.length);
 
   const handleLikeClick = () => {
     if (!user.token) {
@@ -35,10 +36,10 @@ function Tweet({ props }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("likeStatus", likeStatus);
+        //console.log("likeStatus", likeStatus);
         setLikeStatus(!likeStatus);
         setLikesCount(likeStatus ? likesCount - 1 : likesCount + 1);
-        console.log("likeStatus", likeStatus);
+        //console.log("likeStatus", likeStatus);
       });
   };
 

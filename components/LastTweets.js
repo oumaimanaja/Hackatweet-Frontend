@@ -6,14 +6,6 @@ import Tweet from "./Tweet";
 function LastTweets({ user }) {
   //const User = useSelector((state) => state.user.value);
   const [tweetData, setTweetData] = useState([]);
-  // useEffect(() => {
-  //   // Effectue une requête pour récupérer les tweets lors du montage initial
-  //   fetch("http://localhost:3000/tweets/all")
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setTweetData(data);
-  //     });
-  // }, []);
 
   useEffect(() => {
     fetch("http://localhost:3000/tweets/all")
