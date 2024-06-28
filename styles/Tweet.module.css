@@ -1,0 +1,8 @@
+.likeIcon {
+  cursor: pointer;
+  margin: 5px;
+}
+
+.likeIcon:hover {
+  opacity: 0.6;
+}
